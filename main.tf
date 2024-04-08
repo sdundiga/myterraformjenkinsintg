@@ -28,18 +28,18 @@ resource "google_compute_network" "vpc_network" {
  }
 
 resource "google_compute_subnetwork" "private_network" {
-  name          = "private-network"
+  name          = "private-network2"
   ip_cidr_range = "10.2.0.0/16"
   network       = google_compute_network.vpc_network.self_link
 }
 
 resource "google_compute_router" "router" {
-  name    = "quickstart-router"
+  name    = "quickstart-router2"
   network = google_compute_network.vpc_network.self_link
 }
 
 resource "google_compute_router_nat" "nat" {
-  name                               = "quickstart-router-nat"
+  name                               = "quickstart-router-nat2"
   router                             = google_compute_router.router.name
   region                             = google_compute_router.router.region
   nat_ip_allocate_option             = "AUTO_ONLY"
@@ -47,7 +47,7 @@ resource "google_compute_router_nat" "nat" {
 }
 
 resource "google_compute_route" "private_network_internet_route" {
-  name             = "private-network-internet"
+  name             = "private-network-internet2"
   dest_range       = "0.0.0.0/0"
   network          = google_compute_network.vpc_network.self_link
   next_hop_gateway = "default-internet-gateway"
@@ -55,7 +55,7 @@ resource "google_compute_route" "private_network_internet_route" {
 }
 
 resource "google_compute_instance" "vm_instance" {
-  name         = "test-instance"
+  name         = "test-instance2"
   machine_type = "e2-medium"
 
   tags = ["test-instance"]
