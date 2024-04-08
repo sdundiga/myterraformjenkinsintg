@@ -9,7 +9,7 @@ pipeline{
     stages{
            stage('Git checkout'){
               steps{
-              git credentialsId: 'jenkins-personal-access-token', url: 'https://github.com/sdundiga/myterraformjenkinsintg.git'
+              git credentialsId: '8403b3f8-a7f2-4f2e-98a0-bc03a055ec21', url: 'https://github.com/sdundiga/myterraformjenkinsintg.git'
                      }
                   }
            stage('Initialize'){                  
