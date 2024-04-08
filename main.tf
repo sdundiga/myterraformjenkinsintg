@@ -18,7 +18,7 @@ resource "google_project_service" "compute_service" {
     }
 }
 
-resource "google_compute_network" "vpc_network" {
+resource "google_compute_network" "vpc_network2" {
   name                    = "terraform-networks"
   auto_create_subnetworks = false
   delete_default_routes_on_create = true
