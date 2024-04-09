@@ -54,4 +54,21 @@ resource "google_compute_route" "private_network_internet_route" {
   priority    = 100
 }
 
+resource "google_compute_instance" "vm_instance" {
+  name         = "test-instance"
+  machine_type = "e2-medium"
 
+  tags = ["test-instance"]
+
+  boot_disk {
+    initialize_params {
+      image = "debian-12-bookworm-v20240312"
+    }
+  }
+
+  network_interface {
+    network = google_compute_network.vpc_network.self_link
+    subnetwork = google_compute_subnetwork.private_network.self_link    
+   
+  }
+}
