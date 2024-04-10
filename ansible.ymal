@@ -1,0 +1,62 @@
+---
+- hosts: web
+  become: yes
+
+  tasks:
+    - name: Install mariadb
+      apt:
+        name: mariadb-server
+        update_cache: yes
+        cache_valid_time: 3600
+        state: present
+
+    - name: start up the MariaDB  service
+      service:
+        name: mariadb
+        state: started
+
+    - name: ensure mariadb is enabled to run on startup
+      service:
+        name: mariadb
+        enabled: true	   
+      
+    - name: create databases
+      mysql_query:
+        login_host: localhost
+        login_user: sample
+        login_password: sample123
+        login_port: 3306
+        query: "create database testdb4;"               
+      register: databases_result1
+    
+    - name: creation of database
+      debug:
+        msg: "Creation of databases: {{ databases_result1 }}" 
+
+    - name: show databases
+      mysql_query:
+        login_host: localhost
+        login_user: sample
+        login_password: sample123
+        login_port: 3306
+        query: "show databases"            
+      register: databases_result2
+    
+    - name: Display database list
+      debug:
+        msg: "List of databases: {{ databases_result2 }}"   
+
+    - name: record count
+      mysql_query:
+        login_host: localhost
+        login_user: sample
+        login_password: sample123
+        login_port: 3306
+        query: "select count(host) from information_schema.processlist;"             
+      register: databases_result3
+    
+    - name: count of the sessions connected
+      debug:
+        msg: "count of sessions connected: {{ databases_result3 }}"   
+
+-- ansible-playbook -i inventory db-server-playbook19.yml      
